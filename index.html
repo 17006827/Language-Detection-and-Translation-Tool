@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Detection and Translation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Language Detection and Translation Tool</h1>
+    </header>
+
+    <section class="language-detection">
+        <h2>Language Detection</h2>
+        <textarea id="detectText" rows="5" placeholder="Enter text to detect the language"></textarea>
+        <button onclick="detectLanguage()">Detect Language</button>
+        <div class="result">
+            <p id="detectedLanguage"></p>
+        </div>
+    </section>
+
+    <section class="translation">
+        <h2>Translate Text</h2>
+        <p>Enter text in English to translate into the selected language:</p>
+        <input type="text" id="inputText" value="Hello, how can I apply to university?">
+        <select id="targetLanguage">
+            <option value="zu">Zulu</option>
+            <option value="ts">Tsonga</option>
+            <option value="xh">Xhosa</option>
+            <option value="st">Sotho</option>
+        </select>
+        <button onclick="translateText()">Translate</button>
+        <div class="result">
+            <p id="translatedText"></p>
+        </div>
+    </section>
+</div>
+
+<script>
+    function detectLanguage() {
+        const detectText = document.getElementById("detectText").value;
+
+        if (detectText === "") {
+            alert("Please enter some text.");
+            return;
+        }
+
+        fetch("https://google-translate113.p.rapidapi.com/api/v1/translator/text", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-rapidapi-host": "google-translate113.p.rapidapi.com",
+                "x-rapidapi-key": "4a003cec64msh637ccde1edc67b8p14b3e3jsnc491a9d60cc6"
+            },
+            body: JSON.stringify({
+                from: "auto",  // Auto-detect the language
+                to: "en",      // Translate to English
+                text: detectText
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const detectedLanguage = data.source_language || "Unknown";
+            document.getElementById("detectedLanguage").innerText = `Detected Language: ${detectedLanguage}`;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Failed to detect the language. Please try again.");
+        });
+    }
+
+    function translateText() {
+        const inputText = document.getElementById('inputText').value;
+        const toLang = document.getElementById('targetLanguage').value;
+        const fromLang = 'en';  // English
+        const apiKey = '4a003cec64msh637ccde1edc67b8p14b3e3jsnc491a9d60cc6';  // Replace with your actual API key
+
+        if (inputText === "") {
+            alert("Please enter some text.");
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener('readystatechange', function () {
+            if (this.readyState === this.DONE) {
+                if (this.status === 200) {
+                    const response = JSON.parse(this.responseText);
+                    document.getElementById('translatedText').innerText = 'Translation: ' + response.translatedText;
+                } else {
+                    document.getElementById('translatedText').innerText = 'Error: ' + this.status + ' ' + this.responseText;
+                }
+            }
+        });
+
+        xhr.open('GET', `https://translate-all-languages.p.rapidapi.com/translate?fromLang=${fromLang}&toLang=${toLang}&text=${encodeURIComponent(inputText)}`);
+        xhr.setRequestHeader('x-rapidapi-key', apiKey);
+        xhr.setRequestHeader('x-rapidapi-host', 'translate-all-languages.p.rapidapi.com');
+
+        xhr.send(null);
+    }
+</script>
+
+</body>
+</html>

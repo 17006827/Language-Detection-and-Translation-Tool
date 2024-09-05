@@ -1,0 +1,67 @@
+/* General body styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f0f0f0;
+    background: url('https://source.unsplash.com/random/1600x900') no-repeat center center fixed; /* Replace with your AI-generated image URL */
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styles */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Dark, semi-transparent background */
+    border-radius: 8px;
+}
+
+/* Header styles */
+h1, h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #e0e0e0;
+    margin: 0 0 10px;
+}
+
+/* Textarea and input styles */
+textarea, input[type="text"], select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background: #222;
+    color: #e0e0e0;
+}
+
+textarea:focus, input[type="text"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styles */
+button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Result section styles */
+.result {
+    margin-top: 20px;
+}
+
+.result p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
